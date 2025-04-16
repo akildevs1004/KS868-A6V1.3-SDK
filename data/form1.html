@@ -49,7 +49,7 @@
                   <td><input id="wifi_gateway" style="width:200px" value='{wifi_gateway}' name="wifi_gateway"></td>
                 </tr>
                 <tr style="display:none1">
-                  <td><label for="ethSubnet">Ethernet Subnet:</label></td>
+                  <td><label for="ethSubnet">Wifi Subnet:</label></td>
                   <td><input id="wifi_subnet" style="width:200px" value='{wifi_subnet}' name="wifi_subnet"></td>
                 </tr>
 
@@ -332,19 +332,19 @@
     const ethSubnetField = document.getElementById('ethSubnetField');
 
     if (connectionType === '1') { // WiFi selected
-      wifiFields.style.display = '';
-      wifiPasswordField.style.display = '';
-      wifiIpField.style.display = '';
-      ethernetFields.style.display = 'none';
-      ethGatewayField.style.display = 'none';
-      ethSubnetField.style.display = 'none';
+      // wifiFields.style.display = '';
+      // wifiPasswordField.style.display = '';
+      // wifiIpField.style.display = '';
+      // // ethernetFields.style.display = 'none';
+      // // ethGatewayField.style.display = 'none';
+      // // ethSubnetField.style.display = 'none';
     } else { // Ethernet selected
-      wifiFields.style.display = 'none';
-      wifiPasswordField.style.display = 'none';
-      wifiIpField.style.display = 'none';
-      ethernetFields.style.display = '';
-      ethGatewayField.style.display = '';
-      ethSubnetField.style.display = '';
+      // //wifiFields.style.display = 'none';
+      // //wifiPasswordField.style.display = 'none';
+      // // wifiIpField.style.display = 'none';
+      // ethernetFields.style.display = '';
+      // ethGatewayField.style.display = '';
+      // ethSubnetField.style.display = '';
     }
   }
 
@@ -460,11 +460,13 @@
       document.getElementById('wifi_ip').value = jsonData.wifi_ip == "{wifi_ip}" ? '' : jsonData.wifi_ip;
       document.getElementById('wifi_or_ethernet').value = jsonData.wifi_or_ethernet == "{wifi_or_ethernet}" ? '' : jsonData.wifi_or_ethernet;
 
-      document.getElementById('wifi_gateway').value =
-        (jsonData.wifi_gateway === "{wifi_gateway}" || jsonData.wifi_gateway === "undefined") ? '' : jsonData.wifi_gateway;
+      // document.getElementById('wifi_gateway').value =
+      //   (jsonData.wifi_gateway === "{wifi_gateway}" || jsonData.wifi_gateway === "undefined") ? '' : jsonData.wifi_gateway;
 
-      document.getElementById('wifi_subnet').value =
-        (jsonData.wifi_subnet === "{wifi_subnet}" || jsonData.wifi_subnet === "undefined") ? '' : jsonData.wifi_subnet;
+      // document.getElementById('wifi_subnet').value =
+      //   (jsonData.wifi_subnet === "{wifi_subnet}" || jsonData.wifi_subnet === "undefined") ? '' : jsonData.wifi_subnet;
+      document.getElementById('wifi_gateway').value = jsonData.wifi_gateway || "";
+      document.getElementById('wifi_subnet').value = jsonData.wifi_subnet || "";
 
 
       document.getElementById('eth_ip').value = jsonData.eth_ip == "{eth_ip}" ? '' : jsonData.eth_ip;

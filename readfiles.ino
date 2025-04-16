@@ -15,54 +15,43 @@ String readConfig(String filename) {
   deserializeJson(config, deviceConfigContent);
   //update Values from Device Config file to Program variables// for device.ino
 
-  if (config.containsKey("max_doorcontact")) {
-    doorCountdownDuration = config["max_doorcontact"].as<long>();
-  }
-
-  if (config.containsKey("max_siren_pause")) {
-    sirenResetDuration = config["max_siren_pause"].as<long>();
-  }
-
-  if (config.containsKey("heartbeat")) {
-    heartbeatInterval = config["heartbeat"].as<long>();
-  }
-
+ 
   if (config.containsKey("max_temperature")) {
     TEMPERATURE_THRESHOLD = config["max_temperature"].as<double>();
   }
-  if (config.containsKey("max_humidity")) {
-    HUMIDIY_THRESHOLD = config["max_humidity"].as<double>();
-  }
+  // if (config.containsKey("max_humidity")) {
+  //   HUMIDIY_THRESHOLD = config["max_humidity"].as<double>();
+  // }
   if (config.containsKey("server_url")) {
     serverURL = config["server_url"].as<String>();
   }
 
-  if (config.containsKey("temp_checkbox")) {
-    temp_checkbox = config["temp_checkbox"].as<bool>();
-  }
-  if (config.containsKey("humidity_checkbox")) {
-    humidity_checkbox = config["humidity_checkbox"].as<bool>();
-  }
-  if (config.containsKey("water_checkbox")) {
-    water_checkbox = config["water_checkbox"].as<bool>();
-  }
-  if (config.containsKey("fire_checkbox")) {
-    fire_checkbox = config["fire_checkbox"].as<bool>();
-  }
-  if (config.containsKey("power_checkbox")) {
-    power_checkbox = config["power_checkbox"].as<bool>();
-  }
-  if (config.containsKey("door_checkbox")) {
-    door_checkbox = config["door_checkbox"].as<bool>();
-  }
-  if (config.containsKey("siren_checkbox")) {
-    siren_checkbox = config["siren_checkbox"].as<bool>();
-  }
+  // if (config.containsKey("temp_checkbox")) {
+  //   temp_checkbox = config["temp_checkbox"].as<bool>();
+  // }
+  // if (config.containsKey("humidity_checkbox")) {
+  //   humidity_checkbox = config["humidity_checkbox"].as<bool>();
+  // }
+  // if (config.containsKey("water_checkbox")) {
+  //   water_checkbox = config["water_checkbox"].as<bool>();
+  // }
+  // if (config.containsKey("fire_checkbox")) {
+  //   fire_checkbox = config["fire_checkbox"].as<bool>();
+  // }
+  // if (config.containsKey("power_checkbox")) {
+  //   power_checkbox = config["power_checkbox"].as<bool>();
+  // }
+  // if (config.containsKey("door_checkbox")) {
+  //   door_checkbox = config["door_checkbox"].as<bool>();
+  // }
+  // if (config.containsKey("siren_checkbox")) {
+  //   siren_checkbox = config["siren_checkbox"].as<bool>();
+  // }
 
 
-  if (door_checkbox == true) {
-    doorCountdownDuration = config["max_doorcontact"].as<long>();
-  }
+  // if (door_checkbox == true) {
+  //   doorCountdownDuration = config["max_doorcontact"].as<long>();
+  // }
 
 
 

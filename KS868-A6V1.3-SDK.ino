@@ -122,7 +122,7 @@ void loop() {
     }
 
      deviceReadSensorsLoop();
-    delay(100);  // Non-blocking delay
+    delay(1000);  // Non-blocking delay
   }
 }
 
