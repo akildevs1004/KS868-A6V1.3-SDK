@@ -11,22 +11,11 @@ void routes() {
   server.on("/status", HTTP_GET, handleStatus);
   server.on("/logo", HTTP_GET, handleLogoImage);
   server.on("/restart", HTTP_GET, handleRestartDevice);
-  // server.on("/updatefirmware", HTTP_GET, handleUpdateFirmware);
-
-
-  // server.on("/updatefirmwaredatafiles", HTTP_GET, handleUpdatePage);
-  // server.on("/updatefirmwaredatafilessubmit", HTTP_POST, handleFileUpload);
-  //server.onNotFound(handleNotFound);
+ 
 }
-
-
-
 // Check if user is authenticated
 bool isAuthenticated() {
-
-
   return loginStatus;
-
 
   if (server.hasHeader("Cookie")) {
     String cookie = server.header("Cookie");
@@ -59,12 +48,7 @@ void handleLoginPage() {
   }
 
   String html = readFile("/login.html");
-  // if (html == "") {
-  //   html = "<html><body><h2>Login111111111111111</h2><form action='/login' method='POST'>"
-  //          "User:<input type='text' name='user'><br>"
-  //          "Password:<input type='password' name='pass'><br>"
-  //          "<input type='submit' value='Login'></form></body></html>";
-  // }
+  
   html.replace("{firmWareVersion}", firmWareVersion);
   html.replace("{ipAddress}", DeviceIPNumber);
   html.replace("{loginErrorMessage}", loginErrorMessage);
@@ -105,32 +89,6 @@ void handleLogout() {
 // Form 1
 void handleForm1() {
 
-
-
-
-  // // server.setContentLength(CONTENT_LENGTH_UNKNOWN);
-  // server.send(200, "text/html", "11111111111");
-
-  // File header = LittleFS.open("/header.html", "r");
-  // while (header.available()) {
-  //   server.client().write(header.read());
-  // }
-  // header.close();
-
-  // File form = LittleFS.open("/form1.html", "r");
-  // while (form.available()) {
-  //   server.client().write(form.read());
-  // }
-  // form.close();
-
-
-
-
-
-
-
-
-
   if (!isAuthenticated()) {
     server.sendHeader("Location", "/");
     server.send(302);
@@ -152,10 +110,10 @@ void handleForm1() {
   if (savedData != "") {
     DynamicJsonDocument doc(256);
     deserializeJson(doc, savedData);
-    header.replace("{config_json}", savedData);
+    html.replace("{config_json}", savedData);
 
 
-    header = replaceHeaderContent(header);
+    html = replaceHeaderContent(html);
 
 
   } else {
@@ -197,50 +155,27 @@ void handleForm1Submit() {
   doc["min_temperature"] = server.arg("min_temperature");
   doc["max_temperature"] = server.arg("max_temperature");
 
-
   doc["max_humidity"] = server.arg("max_humidity");
-
 
   doc["max_doorcontact"] = server.arg("max_doorcontact");
   doc["max_siren_play"] = server.arg("max_siren_play");
   doc["max_siren_pause"] = server.arg("max_siren_pause");
 
 
+  doc["temp_checkbox"] = server.hasArg("temp_checkbox"); 
 
+  doc["humidity_checkbox"] = server.hasArg("humidity_checkbox"); 
 
-  doc["temp_checkbox"] = server.hasArg("temp_checkbox");
-  doc["temperature_alert_sms"] = server.hasArg("temperature_alert_sms");
-  doc["temperature_alert_call"] = server.hasArg("temperature_alert_call");
-  doc["temperature_alert_whatsapp"] = server.hasArg("temperature_alert_whatsapp");
+  doc["water_checkbox"] = server.hasArg("water_checkbox"); 
 
-  doc["humidity_checkbox"] = server.hasArg("humidity_checkbox");
-  doc["humidity_alert_sms"] = server.hasArg("humidity_alert_sms");
-  doc["humidity_alert_call"] = server.hasArg("humidity_alert_call");
-  doc["humidity_alert_whatsapp"] = server.hasArg("humidity_alert_whatsapp");
+  doc["fire_checkbox"] = server.hasArg("fire_checkbox"); 
 
-  doc["water_checkbox"] = server.hasArg("water_checkbox");
-  doc["water_alert_sms"] = server.hasArg("water_alert_sms");
-  doc["water_alert_call"] = server.hasArg("water_alert_call");
-  doc["water_alert_whatsapp"] = server.hasArg("water_alert_whatsapp");
+  doc["power_checkbox"] = server.hasArg("power_checkbox"); 
 
-  doc["fire_checkbox"] = server.hasArg("fire_checkbox");
-  doc["fire_alert_sms"] = server.hasArg("fire_alert_sms");
-  doc["fire_alert_call"] = server.hasArg("fire_alert_call");
-  doc["fire_alert_whatsapp"] = server.hasArg("fire_alert_whatsapp");
-
-  doc["power_checkbox"] = server.hasArg("power_checkbox");
-  doc["power_alert_sms"] = server.hasArg("power_alert_sms");
-  doc["power_alert_call"] = server.hasArg("power_alert_call");
-  doc["power_alert_whatsapp"] = server.hasArg("power_alert_whatsapp");
-
-  doc["door_checkbox"] = server.hasArg("door_checkbox");
-  doc["door_alert_sms"] = server.hasArg("door_alert_sms");
-  doc["door_alert_call"] = server.hasArg("door_alert_call");
-  doc["door_alert_whatsapp"] = server.hasArg("door_alert_whatsapp");
+  doc["door_checkbox"] = server.hasArg("door_checkbox"); 
 
   Serial.println(server.hasArg("door_checkbox"));
   Serial.println(server.arg("door_checkbox"));
-
 
 
   String output;
@@ -282,26 +217,7 @@ void handleRestartDevice() {
   delay(1000);    // Give time for response to be sent
   ESP.restart();  // This will call setup() again after reboot
 }
-
-// Handle Form 2 submission
-// void handleForm2Submit() {
-//   if (!isAuthenticated()) {
-//     server.sendHeader("Location", "/");
-//     server.send(302);
-//     return;
-//   }
-
-//   DynamicJsonDocument doc(256);
-//   doc["fieldA"] = server.arg("fieldA");
-//   doc["fieldB"] = server.arg("fieldB");
-
-//   String output;
-//   serializeJson(doc, output);
-//   saveConfig("form2_config.json", output);
-
-//   server.send(200, "text/plain", "Form 2 data saved successfully");
-// }
-
+ 
 // Serve CSS
 void handleCSS() {
   String css = readFile("/styles.css");

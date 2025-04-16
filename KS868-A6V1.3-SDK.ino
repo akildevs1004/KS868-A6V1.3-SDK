@@ -6,25 +6,11 @@
 #include <WiFiManager.h>
 #include <Wire.h>
 #include <DHT22.h>
-#include <HTTPClient.h>
-#include "esp_ping.h"
-#include "esp_log.h"
-#include "lwip/inet.h"
-
-
-#include <AsyncTCP.h>
-#include <ESPAsyncWebServer.h>
+#include <HTTPClient.h> 
 #include <Update.h>
-
-
 #include <WiFiClient.h>
-
-#include <Update.h>
-#include "FS.h"
-#include <ESPmDNS.h>
-#include <WiFiUdp.h>
-#include <ArduinoOTA.h>
-
+ 
+ 
 #include <time.h>
 
 
@@ -45,7 +31,7 @@ String loginErrorMessage;
 String GlobalWebsiteResponseMessage;
 String GlobalWebsiteErrorMessage;
 HTTPClient http;
-int cloudAccountActiveDaysRemaining = 0;
+int cloudAccountActiveDaysRemaining = 90;
 unsigned long lastRun = 0;
 const unsigned long interval = 24UL * 60UL * 60UL * 1000UL;  // 24 hours in milliseconds 
 String serverURL = "";   
@@ -96,16 +82,16 @@ void setup() {
     delay(2000);  // Wait for NTP sync
 
     // // Get today's date
-    todayDate = getCurrentDate();
+    //todayDate = getCurrentDate();
     Serial.println("Today's Date: " + todayDate);
 
 
     socketConnectServer();
     handleHeartbeat();
-    getDeviceAccoutnDetails();
-    devicePinDefination();
-    updateFirmWaresetup();
-    uploadHTMLsetup();
+    //getDeviceAccoutnDetails();
+    devicePinDefinationSetup();
+    //updateFirmWaresetup();
+    //uploadHTMLsetup();
 
     if (cloudAccountActiveDaysRemaining <= 0) {
       Serial.println("❌ XXXXXXXXXXXXXXXXXXXXXXXXXXXXX----Account is expired----XXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
@@ -122,23 +108,20 @@ void loop() {
     if (cloudAccountActiveDaysRemaining > 0) {
 
       handleHeartbeat();
-      updateFirmWareLoop();
+      //updateFirmWareLoop();
 
       unsigned long currentMillis = millis();
      
 
       if (currentMillis - lastRun >= interval) {
         lastRun = currentMillis;
-        getDeviceAccoutnDetails();
+        //getDeviceAccoutnDetails();
       }
     } else
-
     {
     }
 
-
-
-    //////////////////////////deviceReadSensorsLoop();
+     deviceReadSensorsLoop();
     delay(100);  // Non-blocking delay
   }
 }
@@ -153,8 +136,6 @@ String replaceHeaderContent(String html) {
   html.replace("{cloud_company_name}", config["cloud_company_name"].as<String>());
   html.replace("{cloud_account_expire}", config["cloud_account_expire"].as<String>());
   html.replace("{cloudAccountActiveDaysRemaining}", String(cloudAccountActiveDaysRemaining));
-
-
 
   return html;
 }
