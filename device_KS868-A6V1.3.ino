@@ -52,6 +52,11 @@ void devicePinDefinationSetup() {
 
   digitalWrite(RED_LED_PIN, LOW);
   digitalWrite(BUZZER_PIN, LOW);
+
+  if(TEMPERATURE_THRESHOLD==0)
+  {
+    TEMPERATURE_THRESHOLD = 28.0;
+  }
 }
 
 void deviceReadSensorsLoop() {
@@ -63,7 +68,7 @@ void deviceReadSensorsLoop() {
   // Serial.println(switch5);
   // Serial.println(!resetTriggered);
   // Serial.print("Temperature Threshold ");
-  // Serial.println(TEMPERATURE_THRESHOLD);
+    Serial.println(TEMPERATURE_THRESHOLD);
   
   // Serial.println("deviceReadSensorsLoop-----------END-------");
 
