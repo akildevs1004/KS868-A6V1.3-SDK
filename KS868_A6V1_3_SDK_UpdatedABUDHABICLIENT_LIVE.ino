@@ -36,7 +36,7 @@ unsigned long lastRun = 0;
 const unsigned long interval = 24UL * 60UL * 60UL * 1000UL;  // 24 hours in milliseconds 
 String serverURL = "";   
 String todayDate;
-String device_serial_number = "XT123456";
+String device_serial_number = "24000003";
 bool USE_ETHERNET = false;
 bool USE_DEFAULT_WIFIMANGER = true;
 String firmWareVersion = "2.0";
@@ -106,6 +106,8 @@ void loop() {
   if (WiFi.status() == WL_CONNECTED) {
 
     if (cloudAccountActiveDaysRemaining > 0) {
+
+
 
       handleHeartbeat();
       //updateFirmWareLoop();

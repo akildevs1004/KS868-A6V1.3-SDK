@@ -20,7 +20,7 @@ unsigned long resetStartTime = 0;
 unsigned long lastDataSendTime = 0;
 const unsigned long countdownDuration = 180000;  // 3-min door open countdown
 const unsigned long resetDuration = 300000;      // 5-minute reset
-const unsigned long heartbeatInterval = 5000;    // 15 minutes (900,000 ms)
+const unsigned long heartbeatInterval = 1000*15;    // 15 minutes (900,000 ms)
 const float TEMP_CHANGE_THRESHOLD = 0.2;         // 0.2°C minimum change
 double TEMPERATURE_THRESHOLD = 28.0;
 
@@ -52,6 +52,11 @@ void devicePinDefinationSetup() {
 
   digitalWrite(RED_LED_PIN, LOW);
   digitalWrite(BUZZER_PIN, LOW);
+
+  if(TEMPERATURE_THRESHOLD==0)
+  {
+    TEMPERATURE_THRESHOLD = 28.0;
+  }
 }
 
 void deviceReadSensorsLoop() {
@@ -63,7 +68,7 @@ void deviceReadSensorsLoop() {
   // Serial.println(switch5);
   // Serial.println(!resetTriggered);
   // Serial.print("Temperature Threshold ");
-  // Serial.println(TEMPERATURE_THRESHOLD);
+    Serial.println(TEMPERATURE_THRESHOLD);
   
   // Serial.println("deviceReadSensorsLoop-----------END-------");
 
@@ -178,6 +183,13 @@ void sendDataToServer(bool forceSend) {
 
   String jsonData = "{\"serialNumber\":\"" + String(device_serial_number) + "\",\"humidity\":\"" + String(humidity) + "\",\"temperature\":\"" + String(temperature) + "\",\"doorOpen\":\"" + String(doorOpen) + "\",\"waterLeakage\":\"" + String(waterLeakage) + "\",\"acPowerFailure\":\"" + String(acPowerFailure) + "\"}";
 
+
+if(temperature >= TEMPERATURE_THRESHOLD)
+{
+  jsonData = "{\"serialNumber\":\"" + String(device_serial_number) + "\",\"humidity\":\"" + String(humidity) + "\",\"temperature\":\"" + String(temperature) + "\",\"doorOpen\":\"" + String(doorOpen) + "\",\"waterLeakage\":\"" + String(waterLeakage) + "\",\"acPowerFailure\":\"" + String(acPowerFailure) + "\",\"temperature_alarm\":\"1\"}";
+
+
+}
   Serial.println("Sending: " + jsonData);
   http.begin(serverURL + "/alarm_device_status");
   http.addHeader("Content-Type", "application/json");

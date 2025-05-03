@@ -109,7 +109,7 @@ void socketDeviceHeartBeatToServer() {
     serializeJson(heartbeatDoc, heartbeatData);
 
     client.println(heartbeatData);
-    //Serial.println("Sent heartbeat: ");
+    Serial.println("Sent heartbeat:--------------------------------------------------- ");
 
 
   } else {
@@ -235,8 +235,8 @@ void sendResponseToServerDeviceConfiguration(const String& jsonString) {
 
 void handleHeartbeat() {
 
-  // Serial.print("Heartbeat ");
-  // Serial.println(config["heartbeat"].as<int>());
+  Serial.print("Heartbeat ");
+  Serial.println(config["heartbeat"].as<int>());
 
   int heartBeatSeconds = 10;
   if (config["heartbeat"].as<int>() > 10) {
